@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Date Difference Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center text-white">
+
+  <div class="glass p-8 rounded-2xl shadow-2xl w-full max-w-md transition-all duration-500">
+
+    <h1 class="text-2xl font-bold mb-6 text-center">
+      📆 Date Calculator
+    </h1>
+
+    <label class="block mb-2 text-sm">Tanggal Awal</label>
+    <input id="startDate"
+           type="date"
+           class="w-full p-3 rounded-lg bg-slate-800 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"/>
+
+    <button onclick="calculateDiff()"
+            class="w-full bg-blue-600 hover:bg-blue-700 transition-all p-3 rounded-lg font-semibold mb-4">
+      Hitung Selisih ke Hari Ini
+    </button>
+
+    <div id="resultDiff"
+         class="text-center text-lg font-semibold mb-6 transition-all duration-500">
+    </div>
+
+    <label class="block mb-2 text-sm">Tambah Hari (Opsional)</label>
+    <input id="addDays"
+           type="number"
+           placeholder="Contoh: 90"
+           class="w-full p-3 rounded-lg bg-slate-800 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-green-500 mb-4"/>
+
+    <button onclick="calculateAdd()"
+            class="w-full bg-green-600 hover:bg-green-700 transition-all p-3 rounded-lg font-semibold">
+      Hitung Tanggal Baru
+    </button>
+
+    <div id="resultAdd"
+         class="text-center text-lg font-semibold mt-4 transition-all duration-500">
+    </div>
+
+  </div>
+
+<script>
+function calculateDiff() {
+  const input = document.getElementById("startDate").value;
+  if (!input) return;
+
+  const start = new Date(input);
+  const today = new Date();
+
+  start.setHours(0,0,0,0);
+  today.setHours(0,0,0,0);
+
+  const diffTime = today - start;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  document.getElementById("resultDiff").innerHTML =
+    `📊 Selisih: <span class="text-blue-400">${diffDays} hari</span>`;
+}
+
+function calculateAdd() {
+  const input = document.getElementById("startDate").value;
+  const add = parseInt(document.getElementById("addDays").value);
+  if (!input || isNaN(add)) return;
+
+  const start = new Date(input);
+  start.setDate(start.getDate() + add);
+
+  const formatted = start.toISOString().split('T')[0];
+
+  document.getElementById("resultAdd").innerHTML =
+    `🎯 Hasil: <span class="text-green-400">${formatted}</span>`;
+}
+</script>
+
+</body>
+</html>
